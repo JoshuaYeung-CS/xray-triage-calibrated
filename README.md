@@ -18,9 +18,8 @@ is unsure about to a radiologist, instead of guessing.
 
 ## Team
 
-<!-- TODO(Joshua): the rules require a team name and member names, even for a solo entry. -->
-- **Team name:** TODO
-- **Members:** TODO
+- **Team name:** Joshua Yeung (solo entry)
+- **Members:** Joshua Yeung
 
 ## Problem
 
@@ -239,8 +238,9 @@ python scripts/make_figures.py data/pneumoniamnist_128.npz
 
 ## AI development tools used
 
-<!-- TODO(Joshua): the rules ask for this disclosure. Wording is your call. -->
-TODO
+Claude Code (Anthropic) was used as an AI coding assistant for writing code, tests and documentation.
+Training ran as one GPU job on a university cluster, and every reported number comes from the committed
+scripts and artifacts (`scripts/evaluate.py`, `artifacts/metrics.json`).
 
 ## Data, credits and license
 
