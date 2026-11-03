@@ -1,21 +1,20 @@
 #!/bin/bash
-# One GPU, one node, short. Excluded: mind-1-19 (Blackwell, unsupported by this torch build) and
-# mind-1-11 (Pascal Titan Xp). MODE=smoke runs a 256-image, 1-epoch check; MODE=full trains for real.
+# One GPU, one node, short. Exclude nodes whose cards your torch build does not support
+# (add --exclude=... on the sbatch line). MODE=smoke runs a 256-image, 1-epoch check; MODE=full trains for real.
 # Submit from the project folder on the cluster:
-#   sbatch --export=ALL,MODE=smoke --time=00:20:00 -J ns-smoke mind/job.sbatch
-#   sbatch --export=ALL,MODE=full  --time=01:00:00 -J ns-full  mind/job.sbatch
+#   sbatch --export=ALL,MODE=smoke,ENVDIR=/path/to/env --time=00:20:00 -J ns-smoke mind/job.sbatch
+#   sbatch --export=ALL,MODE=full,ENVDIR=/path/to/env  --time=01:00:00 -J ns-full  mind/job.sbatch
 #SBATCH -p gpu
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=24G
-#SBATCH --exclude=mind-1-19,mind-1-11
 #SBATCH -o logs/%x-%j.out
 set -euo pipefail
 
 PROJ="${PROJ:-$PWD}"
 # An existing torch 2.14 + cu126 env and its container, used read-only.
-ENVDIR="${ENVDIR:-/user_data/jjyeung/joshua_yeung/lmlab2}"
+ENVDIR="${ENVDIR:?set ENVDIR to the folder holding venv/ and lmlab2.sif}"
 SIF="$ENVDIR/lmlab2.sif"
 PY="$ENVDIR/venv/bin/python"
 OUT="$PROJ/runs/${MODE}-${SLURM_JOB_ID}"
