@@ -1,0 +1,349 @@
+{
+  "protocol": "Score the saved validation and test logits. NumPy only; no model is loaded.\n\nProtocol (fixed before any test number was looked at):\n- Every candidate gets its own temperature, fitted on validation NLL.\n- The shipped model is scored on the logits of the exported ONNX file, i.e. exactly what the app serves.\n- The triage band is set in advance: answer \"likely normal\" at p <= 0.20, \"likely pneumonia\" at p >= 0.80,\n  otherwise \"unsure, refer\". Nothing about the band is tuned.\n- The high-sensitivity operating point (90% specificity) is chosen on validation and then applied to test.\n- 95% intervals are percentile bootstraps over test images (2,000 resamples).",
+  "band": [
+    0.2,
+    0.8
+  ],
+  "candidates": {
+    "finetune_s0": {
+      "temperature": 1.4362237514966305,
+      "val": {
+        "auroc": 0.9989907645434638,
+        "accuracy": 0.9847328244274809,
+        "sensitivity": 0.9845758354755784,
+        "specificity": 0.9851851851851852,
+        "f1": 0.9896640826873385,
+        "ece": 0.013719765831270412,
+        "brier": 0.009842158369976754,
+        "nll": 0.04201550231705816,
+        "confusion": {
+          "tp": 383,
+          "fp": 2,
+          "tn": 133,
+          "fn": 6
+        }
+      },
+      "test": {
+        "auroc": 0.9936335744028052,
+        "accuracy": 0.9535256410256411,
+        "sensitivity": 0.9923076923076923,
+        "specificity": 0.8888888888888888,
+        "f1": 0.9638854296388543,
+        "ece": 0.03955819678964238,
+        "brier": 0.0366135385391795,
+        "nll": 0.13710600291618955,
+        "confusion": {
+          "tp": 387,
+          "fp": 26,
+          "tn": 208,
+          "fn": 3
+        }
+      }
+    },
+    "finetune_s1": {
+      "temperature": 0.9362733974936033,
+      "val": {
+        "auroc": 0.9982481195848805,
+        "accuracy": 0.9809160305343512,
+        "sensitivity": 0.9845758354755784,
+        "specificity": 0.9703703703703703,
+        "f1": 0.9871134020618556,
+        "ece": 0.013516223731390862,
+        "brier": 0.01269547281831244,
+        "nll": 0.044412537934365476,
+        "confusion": {
+          "tp": 383,
+          "fp": 4,
+          "tn": 131,
+          "fn": 6
+        }
+      },
+      "test": {
+        "auroc": 0.993545912776682,
+        "accuracy": 0.9439102564102564,
+        "sensitivity": 0.9974358974358974,
+        "specificity": 0.8547008547008547,
+        "f1": 0.9569495694956949,
+        "ece": 0.05876124100808668,
+        "brier": 0.04424792659172205,
+        "nll": 0.16261097337437136,
+        "confusion": {
+          "tp": 389,
+          "fp": 34,
+          "tn": 200,
+          "fn": 1
+        }
+      }
+    },
+    "finetune_s2": {
+      "temperature": 1.0268639946808982,
+      "val": {
+        "auroc": 0.9992954393982671,
+        "accuracy": 0.9866412213740458,
+        "sensitivity": 0.9974293059125964,
+        "specificity": 0.9555555555555556,
+        "f1": 0.991060025542784,
+        "ece": 0.01062060081509933,
+        "brier": 0.01135612317154058,
+        "nll": 0.038602465020791815,
+        "confusion": {
+          "tp": 388,
+          "fp": 6,
+          "tn": 129,
+          "fn": 1
+        }
+      },
+      "test": {
+        "auroc": 0.9910585141354372,
+        "accuracy": 0.8814102564102564,
+        "sensitivity": 0.9974358974358974,
+        "specificity": 0.688034188034188,
+        "f1": 0.9131455399061033,
+        "ece": 0.11659013208227265,
+        "brier": 0.09215452109272856,
+        "nll": 0.3590516916075342,
+        "confusion": {
+          "tp": 389,
+          "fp": 73,
+          "tn": 161,
+          "fn": 1
+        }
+      }
+    },
+    "frozen_lr": {
+      "temperature": 0.8155381629136756,
+      "val": {
+        "auroc": 0.9955250880700752,
+        "accuracy": 0.9675572519083969,
+        "sensitivity": 0.9820051413881749,
+        "specificity": 0.9259259259259259,
+        "f1": 0.9782330345710627,
+        "ece": 0.01251353737622057,
+        "brier": 0.022303557880643234,
+        "nll": 0.07517429683029098,
+        "confusion": {
+          "tp": 382,
+          "fp": 10,
+          "tn": 125,
+          "fn": 7
+        }
+      },
+      "test": {
+        "auroc": 0.9813938198553583,
+        "accuracy": 0.8894230769230769,
+        "sensitivity": 0.9974358974358974,
+        "specificity": 0.7094017094017094,
+        "f1": 0.9185360094451004,
+        "ece": 0.11057103015839577,
+        "brier": 0.08646810937750891,
+        "nll": 0.33673945866899313,
+        "confusion": {
+          "tp": 389,
+          "fp": 68,
+          "tn": 166,
+          "fn": 1
+        }
+      }
+    },
+    "onnx": {
+      "temperature": 1.0268627912301644,
+      "val": {
+        "auroc": 0.9992954393982671,
+        "accuracy": 0.9866412213740458,
+        "sensitivity": 0.9974293059125964,
+        "specificity": 0.9555555555555556,
+        "f1": 0.991060025542784,
+        "ece": 0.010620612128485918,
+        "brier": 0.011356128631094024,
+        "nll": 0.03860240133014299,
+        "confusion": {
+          "tp": 388,
+          "fp": 6,
+          "tn": 129,
+          "fn": 1
+        }
+      },
+      "test": {
+        "auroc": 0.9910585141354372,
+        "accuracy": 0.8814102564102564,
+        "sensitivity": 0.9974358974358974,
+        "specificity": 0.688034188034188,
+        "f1": 0.9131455399061033,
+        "ece": 0.1165900967509404,
+        "brier": 0.09215448859560663,
+        "nll": 0.3590518608915531,
+        "confusion": {
+          "tp": 389,
+          "fp": 73,
+          "tn": 161,
+          "fn": 1
+        }
+      }
+    }
+  },
+  "test": {
+    "n": 624,
+    "pneumonia_share": 0.625,
+    "majority_class_accuracy": 0.625,
+    "shipped": {
+      "auroc": 0.9910585141354372,
+      "accuracy": 0.8814102564102564,
+      "sensitivity": 0.9974358974358974,
+      "specificity": 0.688034188034188,
+      "f1": 0.9131455399061033,
+      "ece": 0.1165900967509404,
+      "brier": 0.09215448859560663,
+      "nll": 0.3590518608915531,
+      "confusion": {
+        "tp": 389,
+        "fp": 73,
+        "tn": 161,
+        "fn": 1
+      },
+      "uncalibrated": {
+        "ece": 0.11654893320586959,
+        "brier": 0.09259881305802035,
+        "nll": 0.366211786994927
+      },
+      "temperature": 1.0268627912301644,
+      "ci95": {
+        "auroc": [
+          0.9844041877237819,
+          0.9964707013038849
+        ],
+        "accuracy": [
+          0.8557692307692307,
+          0.905448717948718
+        ],
+        "ece": [
+          0.09585327184585608,
+          0.13875217919458693
+        ],
+        "brier": [
+          0.07361234639367406,
+          0.11208855198053254
+        ],
+        "coverage": [
+          0.8926282051282052,
+          0.9375
+        ],
+        "selective_accuracy": [
+          0.8926056338028169,
+          0.9378330373001776
+        ]
+      }
+    },
+    "triage": {
+      "coverage": 0.9166666666666666,
+      "answered": 572,
+      "referred": 52,
+      "selective_accuracy": 0.916083916083916,
+      "answered_normal": 135,
+      "answered_pneumonia": 437,
+      "missed_pneumonia": 0,
+      "false_alarm": 48,
+      "accuracy_on_referred": 0.5
+    },
+    "high_sensitivity_point": {
+      "threshold_from_val": 0.15991187725715014,
+      "sensitivity": 1.0,
+      "specificity": 0.5470085470085471,
+      "target_specificity_on_val": 0.9
+    },
+    "seed_spread_auroc": {
+      "seeds": [
+        "finetune_s0",
+        "finetune_s1",
+        "finetune_s2"
+      ],
+      "values": [
+        0.9936335744028052,
+        0.993545912776682,
+        0.9910585141354372
+      ],
+      "mean": 0.9927460004383081,
+      "sd": 0.0014620631508099739
+    }
+  },
+  "val": {
+    "n": 524,
+    "pneumonia_share": 0.7423664122137404,
+    "shipped": {
+      "auroc": 0.9992954393982671,
+      "accuracy": 0.9866412213740458,
+      "sensitivity": 0.9974293059125964,
+      "specificity": 0.9555555555555556,
+      "f1": 0.991060025542784,
+      "ece": 0.010620612128485918,
+      "brier": 0.011356128631094024,
+      "nll": 0.03860240133014299,
+      "confusion": {
+        "tp": 388,
+        "fp": 6,
+        "tn": 129,
+        "fn": 1
+      }
+    },
+    "triage": {
+      "coverage": 0.9790076335877863,
+      "answered": 513,
+      "referred": 11,
+      "selective_accuracy": 0.9922027290448343,
+      "answered_normal": 125,
+      "answered_pneumonia": 388,
+      "missed_pneumonia": 1,
+      "false_alarm": 3,
+      "accuracy_on_referred": 0.7272727272727273
+    }
+  },
+  "shipped_name": "finetune_s2",
+  "onnx": {
+    "exporter": "torchscript",
+    "max_abs_logit_diff": 6.508827209472656e-05,
+    "max_abs_cam_diff": 0.00028228759765625,
+    "same_side_of_zero": 1.0,
+    "cpu_latency_ms_median": 23.164422251284122,
+    "cpu_latency_ms_p90": 23.239593394100666,
+    "onnxruntime": "1.31.1"
+  },
+  "training": {
+    "frozen_lr": {
+      "lambda": 0.01,
+      "val_nll": 0.07740115261364218,
+      "val_nll_scaled": 0.07517429683029098,
+      "val_auroc": 0.9955250880700752
+    },
+    "finetune_s0": {
+      "best_epoch": 12,
+      "val_nll": 0.04723186613120481,
+      "val_nll_scaled": 0.04201550231705815,
+      "val_auroc": 0.9989907645434638,
+      "train_seconds": 66.8858413696289
+    },
+    "finetune_s1": {
+      "best_epoch": 3,
+      "val_nll": 0.04459233056890031,
+      "val_nll_scaled": 0.044412537934365434,
+      "val_auroc": 0.9982481195848805,
+      "train_seconds": 60.115307331085205
+    },
+    "finetune_s2": {
+      "best_epoch": 3,
+      "val_nll": 0.03862873709212556,
+      "val_nll_scaled": 0.03860246502079176,
+      "val_auroc": 0.9992954393982671,
+      "train_seconds": 60.46585464477539
+    }
+  },
+  "headline": {
+    "test_n": 624,
+    "coverage": 0.9166666666666666,
+    "selective_accuracy": 0.916083916083916,
+    "referred": 52,
+    "missed_pneumonia": 0,
+    "answered_normal": 135,
+    "false_alarm": 48,
+    "pneumonia_n": 390,
+    "normal_n": 234
+  }
+}

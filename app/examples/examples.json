@@ -1,0 +1,47 @@
+{
+  "source": "PneumoniaMNIST 128 px test split (MedMNIST v3, CC BY 4.0)",
+  "examples": [
+    {
+      "title": "1. Confident normal (test image #353)",
+      "file": "test_353.png",
+      "truth": "normal",
+      "prob": 1.6896128185544217e-07
+    },
+    {
+      "title": "2. Confident normal (test image #60)",
+      "file": "test_060.png",
+      "truth": "normal",
+      "prob": 0.001859405082920657
+    },
+    {
+      "title": "3. Confident pneumonia (test image #35)",
+      "file": "test_035.png",
+      "truth": "pneumonia",
+      "prob": 0.99996006899953
+    },
+    {
+      "title": "4. Confident pneumonia (test image #175)",
+      "file": "test_175.png",
+      "truth": "pneumonia",
+      "prob": 0.9997930277725711
+    },
+    {
+      "title": "5. Unsure case (test image #199)",
+      "file": "test_199.png",
+      "truth": "normal",
+      "prob": 0.5039911738590762
+    },
+    {
+      "title": "6. Unsure case (test image #280)",
+      "file": "test_280.png",
+      "truth": "normal",
+      "prob": 0.5130287474443802
+    },
+    {
+      "title": "7. Its most confident mistake (test image #103)",
+      "file": "test_103.png",
+      "truth": "normal",
+      "prob": 0.9996925256453629
+    }
+  ]
+}

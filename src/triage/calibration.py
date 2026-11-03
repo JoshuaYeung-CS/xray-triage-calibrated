@@ -162,6 +162,8 @@ def selective_report(probs, labels, lo: float, hi: float):
         "answered": n_ans,
         "referred": int(len(p) - n_ans),
         "selective_accuracy": correct / max(n_ans, 1),
+        "answered_normal": int(np.sum(p <= lo)),
+        "answered_pneumonia": int(np.sum(p >= hi)),
         "missed_pneumonia": missed_pneumonia,
         "false_alarm": false_alarm,
         "accuracy_on_referred": float(np.mean((p[~answered] >= 0.5) == y[~answered])) if n_ans < len(p) else float("nan"),

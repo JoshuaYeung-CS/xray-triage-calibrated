@@ -1,0 +1,7 @@
+{
+  "temperature": 1.0268627912301644,
+  "band_lo": 0.2,
+  "band_hi": 0.8,
+  "high_sensitivity_threshold": 0.15991187725715014,
+  "model": "finetune_s2"
+}

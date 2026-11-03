@@ -10,3 +10,4 @@ artifacts/triage_state.pt
 artifacts/eval_arrays.npz
 HANDOFF.md
 SUBMISSION.md
+logs/

@@ -54,8 +54,13 @@ st.title("X-Ray Triage, Calibrated")
 st.caption("Neural Storm 2026 · Human Impact · Problem HI-01 (medical imaging)")
 if head:
     st.markdown(
-        f"#### On {head['test_n']} held-out pediatric chest X-rays, it answered **{pct(head['coverage'], 0)}** "
-        f"of them with **{pct(head['selective_accuracy'])}** accuracy and referred the rest to a radiologist."
+        f"#### On {head['test_n']} held-out pediatric chest X-rays, all {head['answered_normal']} of its "
+        f"\"likely normal\" answers were right: it never told a pneumonia patient they looked fine."
+    )
+    st.caption(
+        f"The cost: {head['false_alarm']} of {head['normal_n']} healthy children were flagged \"likely pneumonia\", "
+        f"and {head['referred']} unclear films ({pct(1 - head['coverage'], 0)}) went to a radiologist. "
+        "See \"How reliable is it?\" for why."
     )
 st.warning(
     "Research demo, not a medical device. It was trained on one public pediatric dataset and has not been "

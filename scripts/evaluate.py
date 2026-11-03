@@ -111,6 +111,10 @@ def main(run_dir: str, art_dir: str | Path | None = None) -> dict:
         "selective_accuracy": sel["selective_accuracy"],
         "referred": sel["referred"],
         "missed_pneumonia": sel["missed_pneumonia"],
+        "answered_normal": sel["answered_normal"],
+        "false_alarm": sel["false_alarm"],
+        "pneumonia_n": int(yt.sum()),
+        "normal_n": int(len(yt) - yt.sum()),
     }
 
     art = Path(art_dir) if art_dir else ROOT / "artifacts"
