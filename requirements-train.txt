@@ -1,0 +1,6 @@
+# Training job (runs on a GPU cluster, not in the app). torch 2.14 cu126 wheel matched the cluster driver.
+torch==2.14.0
+numpy
+onnx==1.23.2
+onnxscript==0.7.2
+onnxruntime==1.31.1

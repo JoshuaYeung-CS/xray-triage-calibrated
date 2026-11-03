@@ -1,5 +1,6 @@
 #!/bin/bash
-# One GPU, one node, short. MODE=smoke runs a 256-image, 1-epoch check; MODE=full trains for real.
+# One GPU, one node, short. Excluded: mind-1-19 (Blackwell, unsupported by this torch build) and
+# mind-1-11 (Pascal Titan Xp). MODE=smoke runs a 256-image, 1-epoch check; MODE=full trains for real.
 # Submit from the project folder on the cluster:
 #   sbatch --export=ALL,MODE=smoke --time=00:20:00 -J ns-smoke mind/job.sbatch
 #   sbatch --export=ALL,MODE=full  --time=01:00:00 -J ns-full  mind/job.sbatch
@@ -8,13 +9,15 @@
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=24G
-#SBATCH --exclude=mind-1-19,mind-1-11,mind-0-18,mind-0-20,mind-0-22,mind-0-24,mind-1-24
+#SBATCH --exclude=mind-1-19,mind-1-11
 #SBATCH -o logs/%x-%j.out
 set -euo pipefail
 
 PROJ="${PROJ:-$PWD}"
-SIF="$HOME/containers/lmlab.sif"
-PY="$HOME/lmlab-env/bin/python"
+# An existing torch 2.14 + cu126 env and its container, used read-only.
+ENVDIR="${ENVDIR:-/user_data/jjyeung/joshua_yeung/lmlab2}"
+SIF="$ENVDIR/lmlab2.sif"
+PY="$ENVDIR/venv/bin/python"
 OUT="$PROJ/runs/${MODE}-${SLURM_JOB_ID}"
 mkdir -p "$OUT" "$PROJ/logs"
 echo "node=$(hostname) gpu=${CUDA_VISIBLE_DEVICES:-none} mode=$MODE out=$OUT"
@@ -28,7 +31,7 @@ run() { apptainer exec --nv -B /user_data "$SIF" "$@"; }
 
 # Install the ONNX wheels (copied up from the laptop) once, skipping anything the env already has.
 if [ ! -f "$PROJ/pydeps/.done" ]; then
-  mkdir -p "$PROJ/pydeps"
+  rm -rf "$PROJ/pydeps" && mkdir -p "$PROJ/pydeps"
   todo=()
   for w in "$PROJ"/wheels/*.whl; do
     name=$(basename "$w" | cut -d- -f1)

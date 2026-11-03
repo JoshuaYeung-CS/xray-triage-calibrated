@@ -30,6 +30,11 @@ from triage.calibration import auroc, fit_temperature, nll  # noqa: E402
 from resnet import TriageNet  # noqa: E402
 
 
+def use_bf16(x: torch.Tensor) -> bool:
+    """bf16 autocast only on Ampere or newer; older cards (2080 Ti, Titan RTX) train in fp32."""
+    return x.is_cuda and torch.cuda.get_device_capability(x.device)[0] >= 8
+
+
 def log(msg: str) -> None:
     print(time.strftime("%H:%M:%S"), msg, flush=True)
 
@@ -68,7 +73,7 @@ def predict(model, x, bs: int = 256, with_cam: bool = False):
     model.eval()
     logits, cams = [], []
     for i in range(0, len(x), bs):
-        with torch.autocast("cuda", dtype=torch.bfloat16, enabled=x.is_cuda):
+        with torch.autocast("cuda", dtype=torch.bfloat16, enabled=use_bf16(x)):
             lg, cam = model(x[i : i + bs])
         logits.append(lg.float().cpu())
         if with_cam:
@@ -138,7 +143,7 @@ def finetune(seed: int, args, data, device):
         for i in range(0, len(xtr), args.batch):
             idx = perm[i : i + args.batch]
             xb = augment(xtr[idx], g)
-            with torch.autocast("cuda", dtype=torch.bfloat16, enabled=xb.is_cuda):
+            with torch.autocast("cuda", dtype=torch.bfloat16, enabled=use_bf16(xb)):
                 logit, _ = model(xb)
             loss = F.binary_cross_entropy_with_logits(logit.float(), ytr[idx])
             opt.zero_grad(set_to_none=True)
@@ -185,7 +190,9 @@ def export_onnx(model, path: Path, x_val: np.ndarray, x_test: np.ndarray):
         log(f"  torchscript exporter failed ({type(e).__name__}: {e}); trying dynamo")
         torch.onnx.export(model, (dummy,), str(path), dynamo=True, **kwargs)
         exporter = "dynamo"
-    sess = ort.InferenceSession(str(path), providers=["CPUExecutionProvider"])
+    full = ort.SessionOptions()
+    full.intra_op_num_threads = 4  # explicit count: the default tries to pin threads and fails in Slurm cgroups
+    sess = ort.InferenceSession(str(path), full, providers=["CPUExecutionProvider"])
     with torch.no_grad():
         ref_logit, ref_cam = model(torch.from_numpy(x_test))
     o_logit, o_cam = run_onnx(sess, x_test)
